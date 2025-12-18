@@ -1,5 +1,8 @@
 const { chromium, devices } = require('@playwright/test');
 
+  // =========================
+  // ใส่ email pass ที่อยากใช้ทดสอบในช่องนี้
+  // =========================
 const users = [
   { email: 'bedevi7165@discounp.com', password: 'Qc_test1234' },
   { email: 'peviyoc374@discounp.com', password: 'Qc_test1234' },
@@ -17,6 +20,8 @@ const users = [
 ];
 
 (async () => {
+
+
   // =========================
   // เปิด browser เต็มจอ
   // =========================
@@ -25,12 +30,16 @@ const users = [
     args: ['--start-maximized'],
   });
 
+
+
   // =========================
   // Desktop context
   // =========================
   const desktopContext = await browser.newContext({
     viewport: null, // ใช้ขนาดจอจริง
   });
+
+
 
   // =========================
   // Mobile context (emulation)
@@ -39,6 +48,8 @@ const users = [
   const mobileContext = await browser.newContext({
     ...mobileDevice,
   });
+
+
 
   // =========================
   // เปิด Desktop tabs
@@ -49,18 +60,19 @@ const users = [
 
     console.log(`🖥️ Desktop tab ${i + 1}: ${user.email}`);
 
-    await page.goto('https://dc2hw.efin.finance/th/login');
+    await page.goto('https://dc2hw.efin.finance/th/login');//ถ้าอยากเทสเว็บอื่นให้เปลี่ยน url ตรงนี้
 
      await page.fill('#emailOrPhone', user.email);
-      await page.click('button[type="submit"]'); // ถ้าหน้า password แยก
+      await page.click('button[type="submit"]'); 
     await page.fill('#password', user.password);
     // ตั้งชื่อ tab ให้รู้ว่าเป็น user ไหน
     await page.evaluate((email) => {
       document.title = `DESKTOP | ${email}`;
     }, user.email);
 
-    // ❌ ไม่กด login
   }
+
+
 
   // =========================
   // เปิด Mobile tabs
@@ -71,10 +83,10 @@ const users = [
 
     console.log(`📱 Mobile tab ${i + 1}: ${user.email}`);
 
-    await page.goto('https://dc2hw.efin.finance/th/login');
+    await page.goto('https://dc2hw.efin.finance/th/login');//ถ้าอยากเทสเว็บอื่นให้เปลี่ยน url ตรงนี้
 
     await page.fill('#emailOrPhone', user.email);
-    await page.click('button[type="submit"]'); // ถ้าหน้า password แยก
+    await page.click('button[type="submit"]'); 
     await page.fill('#password', user.password);
 
     await page.evaluate((email) => {
@@ -83,6 +95,5 @@ const users = [
 
     // ❌ ไม่กด login
   }
-
 
 })();
